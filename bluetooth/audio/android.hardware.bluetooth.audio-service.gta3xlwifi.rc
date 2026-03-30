@@ -1,0 +1,5 @@
+service bluetooth_audio_hal /vendor/bin/hw/android.hardware.bluetooth.audio-service.gta3xlwifi
+    interface aidl android.hardware.bluetooth.audio.IBluetoothAudioProviderFactory/default
+    class hal
+    user bluetooth
+    group bluetooth

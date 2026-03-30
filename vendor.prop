@@ -2,3 +2,13 @@
 ## SoC
 ro.soc.manufacturer=Samsung
 ro.soc.model=Exynos 7904
+
+## Graphics
+ro.hardware.egl=mali
+debug.renderengine.backend=gles
+
+## ADB - bring-up (remove when stable)
+ro.adb.secure=0
+
+## FRP - disable PersistentDataBlock (SELinux blocks access, causes boot crash)
+ro.frp.pst=

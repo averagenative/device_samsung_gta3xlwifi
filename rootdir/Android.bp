@@ -1,0 +1,12 @@
+prebuilt_etc {
+    name: "fstab.exynos7904",
+    src: "etc/fstab.exynos7904",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "fstab.ramdisk",
+    src: "etc/fstab.exynos7904",
+    ramdisk: true,
+    filename: "fstab.exynos7904",
+}

@@ -1,7 +1,6 @@
-
 ## SoC
 ro.hardware.chipname=exynos7904
 ro.arch=exynos7904
 
 ## Display
-ro.sf.lcd_density=420
+ro.sf.lcd_density=240

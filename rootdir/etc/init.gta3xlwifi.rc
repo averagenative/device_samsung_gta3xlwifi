@@ -1,0 +1,13 @@
+# Samsung SM-T510 (gta3xlwifi) specific init
+
+on post-fs-data
+    # Generate BT address from Exynos unique chip ID if EFS bt_addr is empty
+    start bt_addr_gen
+
+service bt_addr_gen /vendor/bin/bt_addr_gen.sh
+    class core
+    user system
+    group system bluetooth
+    oneshot
+    disabled
+    seclabel u:r:hal_bluetooth_default:s0

@@ -1,0 +1,17 @@
+cc_binary {
+    name: "android.hardware.bluetooth.audio-service.gta3xlwifi",
+    relative_install_path: "hw",
+    init_rc: ["android.hardware.bluetooth.audio-service.gta3xlwifi.rc"],
+    vendor: true,
+    srcs: ["main.cpp"],
+    header_libs: ["libhardware_headers"],
+    shared_libs: [
+        "android.hardware.bluetooth.audio-impl",
+        "libbase",
+        "libbinder_ndk",
+        "liblog",
+        "libutils",
+        "android.hardware.bluetooth.audio-V2-ndk",
+        "libbluetooth_audio_session_aidl",
+    ],
+}

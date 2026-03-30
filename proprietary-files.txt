@@ -18,6 +18,9 @@ vendor/firmware/mfc_fw.bin
 vendor/firmware/setfile_4ha.bin
 vendor/firmware/setfile_5e9.bin
 
+# SCSC daemon (MX140 firmware management — needed for BT)
+vendor/bin/wlbtd
+
 # Wifi
 vendor/bin/hw/macloader
 vendor/bin/hw/mfgloader

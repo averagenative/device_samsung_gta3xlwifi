@@ -1,0 +1,18 @@
+# Android fstab file.
+# The filesystem that contains the filesystem checker binary (typically /system) cannot
+# specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
+
+#<src>                                     <mnt_point>        <type>  <mnt_flags and options>                                <fs_mgr_flags>
+/dev/block/platform/13500000.dwmmc0/by-name/system    /system    ext4    ro,errors=continue                                         wait,first_stage_mount
+/dev/block/platform/13500000.dwmmc0/by-name/vendor    /vendor    ext4    ro,errors=continue                                         wait,first_stage_mount
+/dev/block/platform/13500000.dwmmc0/by-name/cache     /cache     ext4    noatime,nosuid,nodev,noauto_da_alloc,discard,journal_async_commit,errors=panic    wait,check
+/dev/block/platform/13500000.dwmmc0/by-name/userdata  /data      ext4    noatime,nosuid,nodev    wait
+/dev/block/platform/13500000.dwmmc0/by-name/efs       /mnt/vendor/efs    ext4    noatime,nosuid,nodev,noauto_da_alloc,discard,journal_async_commit,errors=panic    wait,check
+/dev/block/platform/13500000.dwmmc0/by-name/boot       /boot      emmc    defaults                                                   defaults
+/dev/block/platform/13500000.dwmmc0/by-name/recovery   /recovery  emmc    defaults                                                   defaults
+/dev/block/platform/13500000.dwmmc0/by-name/misc      /misc      emmc    defaults                                                   defaults
+
+# VOLD
+/dev/block/platform/13500000.dwmmc0/by-name/hidden    /preload   ext4    defaults                                                   voldmanaged=preload:auto
+/devices/platform/13550000.dwmmc2/mmc_host*            auto       auto    defaults                                                   voldmanaged=sdcard:auto
+/devices/platform/*.dwc3/xhci-hcd.*.auto/usb*          auto       auto    defaults                                                   voldmanaged=usb:auto

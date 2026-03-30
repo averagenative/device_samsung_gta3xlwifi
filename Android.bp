@@ -5,3 +5,18 @@
 //
 soong_namespace {
 }
+
+cc_prebuilt_library_shared {
+    name: "libutils-v32",
+    stem: "libutils-v32",
+    vendor: true,
+    strip: {
+        none: true,
+    },
+    target: {
+        android_arm64: {
+            srcs: ["prebuilts/libutils-v32_arm64.so"],
+        },
+    },
+    check_elf_files: false,
+}

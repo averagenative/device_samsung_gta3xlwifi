@@ -1,48 +1,47 @@
-#
-# SPDX-FileCopyrightText: 2024 The LineageOS Project
-# SPDX-License-Identifier: Apache-2.0
-#
 DEVICE_PATH := device/samsung/gta3xlwifi
 
-# Architecture
-TARGET_ARCH := arm
-TARGET_ARCH_VARIANT := armv8-a
-TARGET_CPU_ABI := armeabi-v7a
-TARGET_CPU_ABI2 := armeabi
-TARGET_CPU_VARIANT := cortex-a53
-
-TARGET_2ND_ARCH := arm64
-TARGET_2ND_ARCH_VARIANT := armv8-a
-TARGET_2ND_CPU_ABI := arm64-v8a
-TARGET_2ND_CPU_ABI2 :=
-TARGET_2ND_CPU_VARIANT := cortex-a53
-TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a53
+# Inherit common board flags FIRST, then override
+include device/samsung/universal7904-common/BoardConfigCommon.mk
 
 # Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(COMMON_PATH)/bluetooth
-BOARD_HAVE_BLUETOOTH_SLSI := true
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 
-# Platform
-TARGET_BOARD_PLATFORM := universal7904
-BOARD_VENDOR := Samsung
-TARGET_SOC := exynos7904
-TARGET_BOOTLOADER_BOARD_NAME := universal7904
-TARGET_NO_BOOTLOADER := true
-TARGET_NO_RADIOIMAGE := true
+# Display — override common tree's 420 for 10.1" tablet
+TARGET_SCREEN_DENSITY := 240
 
-# Properties
-TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
-TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
+# Kernel
+BOARD_KERNEL_CMDLINE := androidboot.force_normal_boot=1
+TARGET_KERNEL_CONFIG := gta3xlwifi_defconfig
+# Samsung SM-T510 bootloader requires dt_size=1 in boot.img header.
+# dt_size=0 or dt_size=4096 causes bootloader DABT crash.
+# Use a 1-byte dummy file as --dt to set dt_size=1.
+# The bootloader loads DTB/DTBO from their dedicated partitions instead.
+BOARD_CUSTOM_BOOTIMG_MK := hardware/samsung/mkbootimg.mk
+BOARD_MKBOOTIMG_ARGS += --dt $(DEVICE_PATH)/dt_dummy.img --board SRPSA25A003RU
 
-# Wifi
-BOARD_WLAN_DEVICE                := slsi
-WPA_SUPPLICANT_VERSION           := VER_0_8_X
-BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
-BOARD_HOSTAPD_DRIVER             := NL80211
-BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
-WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
-PRODUCT_CFI_INCLUDE_PATHS += hardware/samsung_slsi/scsc_wifibt/wpa_supplicant_lib
+# Partitions
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3196059648
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 39845888
+BOARD_VENDORIMAGE_PARTITION_SIZE := 343932928
 
-# Inherit the proprietary files
-include vendor/samsung/gta3xlwifi/BoardConfigVendor.mk
+BOARD_ROOT_EXTRA_SYMLINKS := \
+    /mnt/vendor/efs:/efs \
+    /mnt/vendor/efs:/factory
+
+# Recovery
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.exynos7904
+
+# Samsung bootloader loads ramdisk from recovery partition.
+# Flash boot.img to recovery during OTA install.
+TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)
+
+# Fingerprint — SM-T510 has no fingerprint sensor
+TARGET_HAS_NO_FINGERPRINT := true
+
+# Sepolicy
+BOARD_SEPOLICY_TEE_FLAVOR := mobicore
+BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
+
+# SPL
+VENDOR_SECURITY_PATCH := 2023-02-01
+BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/dtbo_prebuilt.img

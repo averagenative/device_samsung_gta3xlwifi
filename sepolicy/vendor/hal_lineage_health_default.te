@@ -1,0 +1,4 @@
+# Allow Lineage health charging control to access battery sysfs
+# The battery directory is labeled sysfs_battery_writable by genfs_contexts
+# Samsung SLSI policy grants file access but not directory search
+allow hal_lineage_health_default sysfs_battery_writable:dir { open read search };
