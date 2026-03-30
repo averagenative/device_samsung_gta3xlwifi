@@ -1,0 +1,19 @@
+diff --git a/libs/binder/Parcel.cpp b/libs/binder/Parcel.cpp
+index acf262a..4d446fc 100644
+--- a/libs/binder/Parcel.cpp
++++ b/libs/binder/Parcel.cpp
+@@ -787,10 +787,10 @@ binder::Status Parcel::enforceNoDataAvail() const {
+     if (n == 0) {
+         return binder::Status::ok();
+     }
+-    return binder::Status::
+-            fromExceptionCode(binder::Status::Exception::EX_BAD_PARCELABLE,
+-                              String8::format("Parcel data not fully consumed, unread size: %zu",
+-                                              n));
++    // Samsung vendor camera HAL includes extra data in binder responses
++    // that Android 13's strict checking rejects. Log and continue.
++    ALOGW("Parcel data not fully consumed, unread size: %zu", n);
++    return binder::Status::ok();
+ }
+ 
+ size_t Parcel::objectsCount() const

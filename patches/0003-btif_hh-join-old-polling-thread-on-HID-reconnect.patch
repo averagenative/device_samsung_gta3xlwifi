@@ -1,0 +1,20 @@
+diff --git a/system/btif/co/bta_hh_co.cc b/system/btif/co/bta_hh_co.cc
+index ace8b0c..187d91e 100644
+--- a/system/btif/co/bta_hh_co.cc
++++ b/system/btif/co/bta_hh_co.cc
+@@ -361,6 +361,15 @@ void bta_hh_co_open(uint8_t dev_handle, uint8_t sub_class,
+           __func__, p_dev->dev_status, p_dev->bd_addr.ToString().c_str(),
+           p_dev->attr_mask, p_dev->sub_class, p_dev->app_id);
+ 
++      /* On reconnect, stop old polling thread before starting new one.
++       * Without this, the old thread can consume UHID_START events
++       * meant for the new thread, leaving ready=false forever. */
++      if (p_dev->hh_poll_thread_id > 0) {
++        p_dev->hh_keep_polling = 0;
++        pthread_join(p_dev->hh_poll_thread_id, NULL);
++        p_dev->hh_poll_thread_id = -1;
++      }
++
+       if (p_dev->fd < 0) {
+         p_dev->fd = open(dev_path, O_RDWR | O_CLOEXEC);
+         if (p_dev->fd < 0) {
