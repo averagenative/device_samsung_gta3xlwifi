@@ -74,12 +74,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
 
-# USB / ADB — legacy USB gadget has no mtp handler, use adb only
-# WITH_ADB_INSECURE disables ADB authentication (needed for headless debugging)
-WITH_ADB_INSECURE := true
+# Touch wake key layout — marks HOME as WAKE for double-tap-to-wake gesture
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/keylayout/sec_touchscreen.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/sec_touchscreen.kl
+
+# USB / ADB
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
-    persist.sys.usb.config=adb \
-    service.adb.root=1
+    persist.sys.usb.config=adb
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += $(LOCAL_PATH)

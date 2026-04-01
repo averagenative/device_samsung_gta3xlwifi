@@ -1,0 +1,5 @@
+# Key layout for Samsung sec_touchscreen (FTS1BA90A)
+# WAKEUP key sent by double-tap-to-wake gesture
+
+key 143   WAKEUP            WAKE
+key 172   HOME              WAKE
