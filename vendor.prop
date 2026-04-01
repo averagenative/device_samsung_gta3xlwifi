@@ -7,8 +7,8 @@ ro.soc.model=Exynos 7904
 ro.hardware.egl=mali
 debug.renderengine.backend=gles
 
-## ADB - bring-up (remove when stable)
-ro.adb.secure=0
+## ADB - require authorization
+ro.adb.secure=1
 
 ## FRP - disable PersistentDataBlock (SELinux blocks access, causes boot crash)
 ro.frp.pst=
