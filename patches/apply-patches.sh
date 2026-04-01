@@ -42,4 +42,8 @@ apply_patch "packages/modules/Bluetooth" \
     "${PATCH_DIR}/0003-btif_hh-join-old-polling-thread-on-HID-reconnect.patch" \
     "btif_hh: join old polling thread on HID reconnect"
 
+apply_patch "hardware/interfaces" \
+    "${PATCH_DIR}/0004-sensors-service-force-32bit-for-Samsung-HAL.patch" \
+    "sensors@1.0-service: force 32-bit for Samsung sensor HAL"
+
 echo "Done. All patches applied."

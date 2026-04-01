@@ -1,0 +1,12 @@
+diff --git a/sensors/1.0/default/Android.bp b/sensors/1.0/default/Android.bp
+index 2e4e1b0..c21c1b1 100644
+--- a/sensors/1.0/default/Android.bp
++++ b/sensors/1.0/default/Android.bp
+@@ -54,6 +54,7 @@ cc_binary {
+     name: "android.hardware.sensors@1.0-service",
+     relative_install_path: "hw",
+     vendor: true,
++    compile_multilib: "32",
+     init_rc: ["android.hardware.sensors@1.0-service.rc"],
+     srcs: ["service.cpp"],
+ 
