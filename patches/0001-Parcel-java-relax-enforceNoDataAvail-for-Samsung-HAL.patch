@@ -1,15 +1,17 @@
 diff --git a/core/java/android/os/Parcel.java b/core/java/android/os/Parcel.java
-index 4bdef891..a381220f 100644
+index 4bdef891..97c4486e 100644
 --- a/core/java/android/os/Parcel.java
 +++ b/core/java/android/os/Parcel.java
-@@ -949,7 +949,9 @@ public final class Parcel {
+@@ -949,7 +949,11 @@ public final class Parcel {
      public void enforceNoDataAvail() {
          final int n = dataAvail();
          if (n > 0) {
 -            throw new BadParcelableException("Parcel data not fully consumed, unread size: " + n);
 +            // Samsung vendor camera HAL includes extra data in responses that
-+            // Android 13's strict checking rejects. Log instead of crash.
++            // Android 13's strict checking rejects. Consume the extra bytes
++            // so subsequent reads aren't corrupted.
 +            android.util.Log.w("Parcel", "Parcel data not fully consumed, unread size: " + n);
++            setDataPosition(dataPosition() + n);
          }
      }
  
