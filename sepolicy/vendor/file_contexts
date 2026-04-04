@@ -1,0 +1,2 @@
+# Broadcom GNSS UART — SM-T510 uses BCM47531 on ttySAC0
+/dev/ttySAC0                                                u:object_r:gps_device:s0

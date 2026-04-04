@@ -3,11 +3,11 @@
 # Samsung bootloader loads ramdisk from recovery partition,
 # so we must flash boot.img to both boot AND recovery.
 #
-# Also flash our DTBO to match the kernel version (stock DTBO
-# from 4.4.177 has incompatible battery aging data that causes
-# a kernel BUG in s2mu005_fuelgauge).
+# Also flash our stock DTBO (Samsung T510XXU5CWA1 firmware).
+# Custom-compiled DTBOs crash during UFDT overlay in the bootloader.
 
 import common
+import os
 
 def FullOTA_InstallEnd(info):
     # Flash boot.img to recovery partition (Samsung loads ramdisk from here)
@@ -15,7 +15,12 @@ def FullOTA_InstallEnd(info):
         'package_extract_file("boot.img", '
         '"/dev/block/platform/13500000.dwmmc0/by-name/recovery");')
 
-    # Flash DTBO to match our kernel
-    info.script.AppendExtra(
-        'package_extract_file("dtbo_prebuilt.img", '
-        '"/dev/block/platform/13500000.dwmmc0/by-name/dtbo");')
+    # Include and flash stock DTBO
+    dtbo_path = os.path.join(info.input_tmp, "IMAGES", "dtbo.img")
+    if not os.path.exists(dtbo_path):
+        dtbo_path = os.path.join(info.input_tmp, "PREBUILT_IMAGES", "dtbo.img")
+    if os.path.exists(dtbo_path):
+        common.ZipWrite(info.output_zip, dtbo_path, "dtbo.img")
+        info.script.AppendExtra(
+            'package_extract_file("dtbo.img", '
+            '"/dev/block/platform/13500000.dwmmc0/by-name/dtbo");')

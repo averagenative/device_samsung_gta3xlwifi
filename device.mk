@@ -47,6 +47,7 @@ PRODUCT_PACKAGES += \
     fstab.exynos7904 \
     fstab.ramdisk
 
+
 # Sensors — use AOSP default impl (not Samsung) + stub HAL module
 PRODUCT_PACKAGES += \
     android.hardware.sensors@1.0-impl \
