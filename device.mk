@@ -83,6 +83,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     persist.sys.usb.config=adb
 
+# ADB authorization — re-enable for release builds
+# WITH_ADB_INSECURE := true
+
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += $(LOCAL_PATH)
 
